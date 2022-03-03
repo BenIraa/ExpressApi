@@ -4,6 +4,6 @@ const addContacts = (req, res) => {
     const contact = req.body;
     contact.id = contacts.length;
     contacts.push(contact);
-    res.json({message: `Contact ${contact.firstname} Succesfull Sent!`, contact});
+    res.json({message: `Contact from ${contact.firstname} Succesfull Sent!`, contact});
 }
 export { getContacts, addContacts, contacts }
