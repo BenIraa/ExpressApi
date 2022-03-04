@@ -1,31 +1,91 @@
-const users = [];
-const homepage = (req, res) => res.json('Hello World!');
-const getUsers = (req, res) => res.json({message: 'all users retrieved', users});
-const addUsers =  (req, res) => {
-    const user = req.body;
-    user.id =users.length;
-    users.push(user);
-    res.json({message: `user ${user.name} succesfully created ! `, user});   
+import User from '../../models/UserModel.js'
+//const users = [];
+export const addUsers =  async (req, res) => { 
+    try {
+        const newuser = await User.create(req.body);
+        res.status(201).json({
+            status: "Success!", 
+            data: { newuser}
+        })
+    } catch (error) {
+
+        res.status(400).json({
+            status: "fail", 
+            data: { error}
+        })
+        
+    }
+     
 }
-const getUser = (req, res) => {
-    
-    const {id} = req.params;
-    const user = users.find((e) => e.id == id);
-    if(user) return  res.json({message: `user ${user.name} succcesfull retreived`, user});
-    res.json({error: `user with id ${id} doesnt exsist`});
-   
+export const getUser = async (req, res) => {
+    try {
+       const {id} = req.params.id;
+       const user = await User.findById(id);
+       res.status(200).json({
+        status: "Success!", 
+        data: { user}
+    })
+
+        
+    } catch (error) {
+        res.status(404).json({
+            status: "fail", 
+            data: { error}
+        })
+    }   
 }
-const updateUser =  (req, res) => {
-    const id = req.params.id;
-    const user = users.find((e) => e.id == id); 
-    const update =req.body;
-    Object.assign(user, update); 
-    res.json({message: `user with id ${id} succesfuly updated`, user: user});
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find()
+        res.status(200).json({
+            status: "Success!",
+            result: users.length, 
+            data: { users}
+        })
+    } catch (error) {
+        res.status(404).json({
+            status: "fail", 
+            data: { error}
+        })
+        
+        
+    }
 }
-const deleteUser = (req, res) =>{
-    const {id} = req.params;
-    users.splice(id, 1);
-    res.json({message: `user with id ${id} succewsfully deleted`});
+export const updateUser = async (req, res) => {
+    try {
+       
+       const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+       res.status(200).json({
+        status: "Success!", 
+        data: { user}
+    })
+
+        
+    } catch (error) {
+        res.status(404).json({
+            status: "fail", 
+            data: { error}
+        })
+    }   
 }
 
-export{ homepage, getUsers, addUsers, getUser, updateUser, deleteUser,users}
+
+export const deleteUser = async (req, res) =>{
+    
+    try {
+        
+        await User.findByIdAndDelete(req.params.id);
+        res.status(204).json({
+        status: "Success!", 
+        data: { }
+     })
+ 
+         
+     } catch (error) {
+         res.status(404).json({
+             status: "fail", 
+             data: { error}
+         })
+     }   
+}
+

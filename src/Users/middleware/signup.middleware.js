@@ -1,4 +1,4 @@
-import {users} from '../controller/user.controller.js'
+/*import {users} from '../controller/user.controller.js'
 
 const signupValidator = (req, res, next) => {
     let {email, name} = req.body
@@ -7,4 +7,4 @@ const signupValidator = (req, res, next) => {
     if(users.find(u => u.email == email)) res.json({message: `user with email ${email} exist`});
     else next();
 }
-export {signupValidator as default}
+export {signupValidator as default}*/
