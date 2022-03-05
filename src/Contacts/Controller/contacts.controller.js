@@ -1,20 +1,82 @@
-const contacts = [];
-const getContacts = (req, res) => res.json({message: `all contacts Retrieved`, contacts});
-const getcontact = (req, res) => {
-    const {id} = req.params;
-    const contact = contacts.find((e) => e.id == id );
-    if(contact) return res.json({message: `contact ${contact.firstname} retrieved succesfully `, contact});
-    res.json({error: ` contact with id ${id} doesnt exist`}); 
+import contactUs from '../../models/ContactModel.js'
+
+export const addContacts = async (req, res) => {
+    try {
+        const newcontact = await contactUs.create(req.body);
+        res.status(201).json({
+            status: "Added",
+            data: { newcontact}
+        }) 
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            data: {error}
+        })
+        
+    }
+
 }
-const addContacts = (req, res) => {
-    const contact = req.body;
-    contact.id = contacts.length;
-    contacts.push(contact);
-    res.json({message: `Contact from ${contact.firstname} Succesfull Sent!`, contact});
+export const getContacts = async (req, res)  => {
+    try {
+        const {id} =  req.params.id;
+        const contact = await contactUs.findById(id);
+        res.status(200).json({
+        status:"success Retrieved",
+        data: {contact}
+    })
+    } catch (error) {
+        res.status(404).json({
+            status: "fail",
+            data: {error}
+        })
+        
+    }
+   
 }
-const deleteContact = (req, res) => {
-    const {id} = req.params;
-    contacts.splice(id, 1);
-    res.json({message: `contact with id ${id} succesfull deleted!`});
+export const getAllContacts = async (req, res) =>{
+    try {
+        const contacts = await contactUs.find()
+        res.status(200).json({
+            status: "Success!",
+            result: contacts.length, 
+            data: {contacts}
+        })
+    } catch (error) {
+        res.status(404).json({
+            status: "fail", 
+            data: {error}
+        })
+        
+        
+    }
 }
-export { getContacts, addContacts, getcontact, deleteContact, contacts }
+export const updateContact =  async (req, res) => {
+    try {
+        const contact = await contactUs.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+        res.status|(200).json({
+            status: "Success",
+            data: { contact}
+        })
+    } catch (error) {
+        res.status(404).json({
+            status: "fail",
+            data: { error}
+        })
+        
+    }
+}
+export const deleteContact = async (req, res) => {
+    try {
+        await contactUs.findByIdAndDelete(req.params.id);
+        res.status(204).json({
+            status: "success",
+            data: {}
+        })
+    } catch (error) {
+        res.status(404).json({
+            status: "fail",
+            data: {error}
+        })
+        
+    }
+}

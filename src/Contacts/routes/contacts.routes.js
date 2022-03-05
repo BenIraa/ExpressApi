@@ -1,13 +1,9 @@
 import express from 'express';
-import { getContacts, addContacts,getcontact, deleteContact} from '../Controller/contacts.controller.js';
-import contactValidator from '../middleware/contacts.middleware.js'
+import {addContacts, getAllContacts,deleteContact, getContacts, updateContact} from '../Controller/contacts.controller.js';
 const router = express.Router();
-const contacts = [];
 
 router.use(express.json());
-router.get('/contacts', getContacts);
-router.get('/contacts/:id', getcontact);
-router.post('/contacts',contactValidator, addContacts);
-router.delete('/contacts/:id', deleteContact);
+router.route('/').get(getAllContacts).post(addContacts);
+router.route('/:id').get(getContacts).patch(updateContact).delete(deleteContact)
 
 export { router as default}

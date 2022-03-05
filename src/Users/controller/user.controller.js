@@ -1,5 +1,5 @@
 import User from '../../models/UserModel.js'
-//const users = [];
+
 export const addUsers =  async (req, res) => { 
     try {
         const newuser = await User.create(req.body);
@@ -30,7 +30,7 @@ export const getUser = async (req, res) => {
     } catch (error) {
         res.status(404).json({
             status: "fail", 
-            data: { error}
+            data: {error}
         })
     }   
 }
