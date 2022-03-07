@@ -1,10 +1,21 @@
+import bcrypt from 'bcryptjs'
 import User from '../../models/UserModel.js'
+import jwt from 'jsonwebtoken';
 
 export const addUsers =  async (req, res) => { 
     try {
-        const newuser = await User.create(req.body);
+        const {password} = req.body
+        const newuser = await User.create({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            telephone: req.body.telephone,
+            password: await bcrypt.hash(password, 12)
+        });
+        const token = jwt.sign({id:newuser._id}, process.env.SECRETE, {expiresIn: process.env.EXPIRES})
         res.status(201).json({
             status: "Success!", 
+            token,
             data: { newuser}
         })
     } catch (error) {
@@ -16,6 +27,32 @@ export const addUsers =  async (req, res) => {
         
     }
      
+}
+export const Login = async (req, res) => {
+    try {
+    const {email, password} = req.body
+    if(!email || !password) {
+        return res.status(400).json({message: 'provide email and password'})
+    }
+    const user = await User.findOne({email: email})
+    console.log(user)
+    if(!user) {
+        return res.status(401).json({message: 'user doesnt exist'})
+    }
+    const token = jwt.sign({id:user._id}, process.env.SECRETE, {expiresIn: process.env.EXPIRES})
+    console.log(token)
+    res.status(200).json({
+        status: "success!",
+        token,
+    })
+     
+    } catch (error) {
+        res.status(401).json({
+            status: "fail",
+            error
+        })
+        
+    }
 }
 export const getUser = async (req, res) => {
     try {
@@ -35,6 +72,7 @@ export const getUser = async (req, res) => {
     }   
 }
 export const getAllUsers = async (req, res) => {
+    console.log(req.existingUser)
     try {
         const users = await User.find()
         res.status(200).json({

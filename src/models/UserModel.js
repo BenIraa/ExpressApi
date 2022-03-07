@@ -1,7 +1,11 @@
 import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
-    name: {
+    firstname: {
+        type: String, 
+        required: [true, "Must enter name"]
+    },
+    lastname: {
         type: String, 
         required: [true, "Must enter name"]
     },
@@ -12,16 +16,16 @@ const userSchema = new mongoose.Schema({
         unique: true,
 
     },
+    telephone: {
+        type: String, 
+        required: [true, "Must enter name"]
+    },
     password: {
         type: String,
         required: [true, "Enter password"],
 
     },
-    confrimpassword: {
-        type: String,
-        required: [true, "Enter password"],
-
-    },
+    
     createdAt: {
         type: Date,
         default: Date.now()
