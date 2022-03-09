@@ -26,7 +26,7 @@ export const protectMiddleware = async (req, res , next) => {
         res.status(401).json({
             status: "fail",
             message: error,
-            error: error.stack
+            // error: error.stack
 
         })
 

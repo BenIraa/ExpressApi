@@ -74,16 +74,17 @@ export const getUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
     console.log(req.existingUser)
     try {
-        const users = await User.find()
+        const user = await User.find()
         res.status(200).json({
             status: "Success!",
-            result: users.length, 
-            data: { users}
+            result: user.length, 
+            data: { user}
         })
     } catch (error) {
         res.status(404).json({
             status: "fail", 
-            data: { error}
+            data: { error},
+            error: error.stack
         })
         
         

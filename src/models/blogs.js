@@ -2,16 +2,17 @@ import mongoose from 'mongoose'
 const blogSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, "Please enter title"]
+        // required: [true, "Please enter title"]
     },
-    discription: {
+    desc: {
         type: String,
-        required: [true, "Please enter description"]
+        // required: [true, "Please enter description"]
     },
-    picture: {
-        type: String,
-        required: [true, "Please upload"]
-    },
+    picture:
+    {
+        data: Buffer,
+        contentType: String
+    }
 })
-const blogs = mongoose.model("blog", blogSchema)
+const blogs = mongoose.model("blogs", blogSchema)
 export default blogs

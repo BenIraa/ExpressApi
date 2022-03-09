@@ -27,7 +27,9 @@ export const getContacts = async (req, res)  => {
     } catch (error) {
         res.status(404).json({
             status: "fail",
-            data: {error}
+            message: error,
+            error: error.stack
+            
         })
         
     }
@@ -70,7 +72,7 @@ export const deleteContact = async (req, res) => {
         await contactUs.findByIdAndDelete(req.params.id);
         res.status(204).json({
             status: "success",
-            data: {}
+            data: { }
         })
     } catch (error) {
         res.status(404).json({
