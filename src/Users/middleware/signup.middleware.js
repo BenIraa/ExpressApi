@@ -1,7 +1,7 @@
 import User from '../../models/UserModel.js'
 import jwt from 'jsonwebtoken'
 import {promisify} from 'util'
-import { Console } from 'console'
+
 
 export const protectMiddleware = async (req, res , next) => {
     let token 

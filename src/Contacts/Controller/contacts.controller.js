@@ -18,11 +18,11 @@ export const addContacts = async (req, res) => {
 }
 export const getContacts = async (req, res)  => {
     try {
-        const {id} =  req.params.id;
-        const contact = await contactUs.findById(id);
+        const id =  req.params.id;
+        const contacts = await contactUs.findById(id);
         res.status(200).json({
         status:"success Retrieved",
-        data: {contact}
+        data: {contacts}
     })
     } catch (error) {
         res.status(404).json({

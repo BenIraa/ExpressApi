@@ -3,10 +3,8 @@ import blogRoutes from '../routes/blog.routes.js';
 
 export const addblog = async (req, res) => {
     try {
-        const title = req.body.title
-        const desc = req.body.desc
-        const blog = await blogs.create({title, desc});
-        
+       
+        const blog = await blogs.create(req.body);
         console.log(blog)
         console.log(req.body)
         res.status(201).json({
@@ -23,7 +21,7 @@ export const addblog = async (req, res) => {
 }
 export const getBlog = async (req, res)  => {
     try {
-        const {id} =  req.params.id;
+        const id =  req.params.id;
         const blog = await blogs.findById(id);
         res.status(200).json({
         status:"success Retrieved",

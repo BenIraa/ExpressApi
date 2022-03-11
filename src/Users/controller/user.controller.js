@@ -9,6 +9,7 @@ export const addUsers =  async (req, res) => {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             email: req.body.email,
+            role: req.body.role,
             telephone: req.body.telephone,
             password: await bcrypt.hash(password, 12)
         });
@@ -56,18 +57,21 @@ export const Login = async (req, res) => {
 }
 export const getUser = async (req, res) => {
     try {
-       const {id} = req.params.id;
+       const id = req.params.id;
        const user = await User.findById(id);
+       console.log(user)
+       console.log(id)
        res.status(200).json({
         status: "Success!", 
-        data: { user}
+        data: {user},
     })
 
         
     } catch (error) {
         res.status(404).json({
             status: "fail", 
-            data: {error}
+            data: {error},
+            error: error.stack
         })
     }   
 }

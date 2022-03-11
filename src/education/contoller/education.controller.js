@@ -44,7 +44,7 @@ export const getAllEducation = async (req, res) => {
 }
 export const getEducation = async (req, res) => {
     try {
-        const {id} =  req.params.id;
+        const id =  req.params.id;
         const edu = await education.findById(id);
         res.status(200).json({
         status:"success Retrieved",
