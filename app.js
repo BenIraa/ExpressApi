@@ -7,7 +7,7 @@ import educationRouter from './src/education/router/education.router.js'
 import messageRouter from './src/message/router/message.router.js'
 import commentsRouter from './src/comments/router/comments.router.js'
 const app = express();
-
+// allow cors headers
 app.use((req,res,next)=>{
   res.setHeader('Acces-Control-Allow-Origin','*');
   res.setHeader('Acces-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
@@ -19,6 +19,7 @@ app.use(
     express.urlencoded({
       extended: false,
     })
+
   );
 
 app.get('/', (req, res) =>{
