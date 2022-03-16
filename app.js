@@ -17,7 +17,7 @@ app.use(
   );
 
 app.get('/', (req, res) =>{
-    res.status(200).json({message: 'Welcome! homepage'})
+    res.status(200).json("BenIraa ExppessAPI")
 
 })
 app.use('/api/v1/users', userRouter)
