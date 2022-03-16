@@ -10,6 +10,13 @@ export const protect = async (req, res, next) => {
   if (req.headers.authorization.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1]
   }
+  else{
+    res.status(400).json({
+      status: "fail",
+      message: " no token provided"
+    })
+
+  }
 
   // console.log(token)
   
