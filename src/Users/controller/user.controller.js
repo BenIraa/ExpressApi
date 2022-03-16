@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import User from '../../models/UserModel.js'
 import jwt from 'jsonwebtoken';
+import { response } from 'express';
 
 export const addUsers =  async (req, res) => { 
     try {
@@ -36,16 +37,25 @@ export const Login = async (req, res) => {
         return res.status(400).json({message: 'provide email and password'})
     }
     const user = await User.findOne({email: email})
-    console.log(user)
     if(!user) {
         return res.status(401).json({message: 'user doesnt exist'})
     }
-    const token = jwt.sign({id:user._id}, process.env.SECRETE, {expiresIn: process.env.EXPIRES})
-    console.log(token)
-    res.status(200).json({
-        status: "success!",
-        token,
+    bcrypt.compare(password, user.password ,(error,success) =>{
+        if(error){
+            return res.status(500).json({message: 'internal server error'})
+        }
+        if(success) {
+           const token = jwt.sign({id:user._id}, process.env.SECRETE, {expiresIn: process.env.EXPIRES})
+           console.log(token)
+           res.status(200).json({
+           status: "success!",
+           token,
+    }) 
+        }else{
+            res.status(403).json({message: 'incorrect password'})
+        }
     })
+    
      
     } catch (error) {
         res.status(401).json({

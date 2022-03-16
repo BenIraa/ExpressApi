@@ -28,7 +28,8 @@ export const protect = async (req, res, next) => {
   }
 
   //  Token verification
-  const decoded = await promisify(jwt.verify)(token, process.env.SECRETE)
+  try {
+    const decoded = await promisify(jwt.verify)(token, process.env.SECRETE)
   console.log(decoded)
   // Check if User exist
 
@@ -44,9 +45,16 @@ export const protect = async (req, res, next) => {
 
   next()
   } catch (error) {
+    return res.status(500).json({
+      status: "failed to recieve token"
+      
+    })
+  }
+  
+  } catch (error) {
     return res.status(401).json({
-        status: "fail",
-        error: error.stack
+        status: "no authorization",
+        
     })
 
 
