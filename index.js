@@ -9,3 +9,5 @@ mongoose.connect(DB).then(() => console.log('DB connected succesfully!'))
 app.listen(PORT, () => console.log(`server is running ${PORT}`));
 
 
+export {app as default}
+

@@ -15,15 +15,15 @@ export const addUsers =  async (req, res) => {
             password: await bcrypt.hash(password, 12)
         });
         const token = jwt.sign({id:newuser._id}, process.env.SECRETE, {expiresIn: process.env.EXPIRES})
-        res.status(201).json({
-            status: "Success!", 
+        res.status(201).json({ 
             token,
-            data: { newuser}
+            data: { newuser},
+            message: 'success'
         })
     } catch (error) {
 
         res.status(400).json({
-            status: "fail", 
+            error: 'user doesnt insert', 
             data: { error}
         })
         
