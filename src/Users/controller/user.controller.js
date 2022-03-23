@@ -89,11 +89,7 @@ export const getAllUsers = async (req, res) => {
     console.log(req.existingUser)
     try {
         const user = await User.find()
-        res.status(200).json({
-            status: "Success!",
-            result: user.length, 
-            data: { user}
-        })
+        res.status(200).json(user)
     } catch (error) {
         res.status(404).json({
             status: "fail", 
@@ -110,7 +106,7 @@ export const updateUser = async (req, res) => {
        const user = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
        res.status(200).json({
         status: "Success!", 
-        data: { user}
+        data: {user}
     })
 
         
