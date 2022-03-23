@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import User from '../../models/UserModel.js'
-import jwt from 'jsonwebtoken';
-import { response } from 'express';
+import jwt from 'jsonwebtoken'
+import {promisify} from 'util'
 
 export const addUsers =  async (req, res) => { 
     try {
@@ -14,7 +14,7 @@ export const addUsers =  async (req, res) => {
             telephone: req.body.telephone,
             password: await bcrypt.hash(password, 12)
         });
-        const token = jwt.sign({id:newuser._id}, process.env.SECRETE, {expiresIn: process.env.EXPIRES})
+        const token = jwt.sign({ id: newuser._id }, process.env.SECRETE, { expiresIn: process.env.EXPIRES })
         res.status(201).json({ 
             token,
             data: { newuser},
@@ -30,6 +30,7 @@ export const addUsers =  async (req, res) => {
     }
      
 }
+
 export const Login = async (req, res) => {
     try {
     const {email, password} = req.body
@@ -39,18 +40,21 @@ export const Login = async (req, res) => {
     const user = await User.findOne({email: email})
     if(!user) {
         return res.status(401).json({message: 'user doesnt exist'})
-    }
+        }
+        console.log("user",user)
     bcrypt.compare(password, user.password ,(error,success) =>{
         if(error){
             return res.status(500).json({message: 'internal server error'})
         }
         if(success) {
-           const token = jwt.sign({id:user._id}, process.env.SECRETE, {expiresIn: process.env.EXPIRES})
-           console.log(token)
+            const token = jwt.sign({id:user._id},process.env.SECRETE, {expiresIn: process.env.EXPIRES})
+           console.log("this is token",token)
            res.status(200).json({
            status: "success!",
            token,
-    }) 
+           data: {user}
+           
+    })   
         }else{
             res.status(403).json({message: 'incorrect password'})
         }
