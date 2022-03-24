@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 const blogSchema = new mongoose.Schema({
     title: {
         type: String,
-        // required: [true, "Please enter title"]
+        required: [true, "Please enter title"]
     },
     desc: {
         type: String,
-        // required: [true, "Please enter description"]
+        required: [true, "Please enter description"]
     },
     picture:
     {

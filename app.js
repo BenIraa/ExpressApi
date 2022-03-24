@@ -6,6 +6,7 @@ import blogsRouter from "./src/blogs/routes/blog.routes.js"
 import educationRouter from './src/education/router/education.router.js'
 import messageRouter from './src/message/router/message.router.js'
 import commentsRouter from './src/comments/router/comments.router.js'
+import subscribersRouter from "./src/subscribe/subscrible.router.js";
 import cors from 'cors'
 
 
@@ -60,6 +61,7 @@ app.use('/api/v1/blogs', blogsRouter )
 app.use('/api/v1/education', educationRouter)
 app.use('/api/v1/message', messageRouter)
 app.use ('/api/v1/comments',commentsRouter)
+app.use('/api/v1/subscribers', subscribersRouter)
 
 
 export default app;
