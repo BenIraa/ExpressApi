@@ -6,6 +6,7 @@ import {promisify} from 'util'
 export const addUsers =  async (req, res) => { 
     try {
         const {password} = req.body
+        console.log(password)
         const newuser = await User.create({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -24,7 +25,8 @@ export const addUsers =  async (req, res) => {
 
         res.status(400).json({
             error: 'user doesnt insert', 
-            data: { error}
+            error: error.stack
+
         })
         
     }

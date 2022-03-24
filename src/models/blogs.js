@@ -12,6 +12,13 @@ const blogSchema = new mongoose.Schema({
     {
         data: Buffer,
         contentType: String
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
+        type: Date,
     }
 })
 const blogs = mongoose.model("blogs", blogSchema)

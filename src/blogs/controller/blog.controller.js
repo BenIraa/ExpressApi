@@ -41,14 +41,12 @@ export const getAllBlogs = async (req, res) =>{
     try {
         const blog = await blogs.find()
         res.status(200).json({
-            status: "Success!",
-            result: blogRoutes.length, 
-            data: {blog}
+            data: {blog},
+            message: 'success'
         })
     } catch (error) {
         res.status(404).json({
             status: "fail", 
-            data: {error},
             error: error.stack
         })
         
