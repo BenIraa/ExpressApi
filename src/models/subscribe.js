@@ -7,6 +7,10 @@ const Subscribechema = new mongoose.Schema({
         trim: true,
         unique: true,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
     
 })
 const Subscribe = mongoose.model("Subscribe", Subscribechema)
