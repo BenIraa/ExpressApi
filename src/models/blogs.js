@@ -10,8 +10,8 @@ const blogSchema = new mongoose.Schema({
     },
     picture:
     {
-        data: Buffer,
-        contentType: String
+        type: String,
+        required: [true, "Please enter image Url"]
     },
     createdAt: {
         type: Date,
